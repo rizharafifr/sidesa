@@ -3,17 +3,17 @@
      <!-- Sidebar - Brand -->
      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
          <div class="sidebar-brand-icon rotate-n-15">
-             <i class="fas fa-laugh-wink"></i>
+             {{-- <i class="fas fa-laugh-wink"></i> --}}
          </div>
-         <div class="sidebar-brand-text mx-3">Si Desa</div>
+         <div class="sidebar-brand-text mx-3">SiDesa</div>
      </a>
 
      <!-- Divider -->
      <hr class="sidebar-divider my-0">
 
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item active">
-         <a class="nav-link" href="index.html">
+     <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
+         <a class="nav-link" href="/dashboard">
              <i class="fas fa-fw fa-tachometer-alt"></i>
              <span>Dashboard</span></a>
      </li>
@@ -27,7 +27,7 @@
      </div>
 
      <!-- Nav Item - Tables -->
-     <li class="nav-item">
+     <li class="nav-item {{ request()->is('resident*') ? 'active' : '' }}">
          <a class="nav-link" href="/resident">
              <i class="fas fa-fw fa-table"></i>
              <span>Penduduk</span></a>

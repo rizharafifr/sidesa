@@ -28,7 +28,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-       @include('layouts.sidebar')
+        @include('layouts.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -44,7 +44,6 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     @yield('content')
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -52,13 +51,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
+            @include('layouts.footer')
             <!-- End of Footer -->
 
         </div>
@@ -108,6 +101,9 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('template/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('template/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
+    </script>
 
 </body>
 
