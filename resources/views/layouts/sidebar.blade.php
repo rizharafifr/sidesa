@@ -11,6 +11,11 @@
                  'path' => '/resident',
                  'icon' => 'fas fa-fw fa-table',
              ],
+             (object) [
+                 'title' => 'Permintaan Akun',
+                 'path' => '/account-request',
+                 'icon' => 'fas fa-fw fa-user',
+             ],
          ],
          2 => [
              (object) [
@@ -51,8 +56,8 @@
 
      <!-- Nav Item - Tables -->
      @foreach ($menus[auth()->user()->role_id] as $menu)
-         <li class="nav-item {{ request()->is($menu->path . '*') ? 'active' : '' }}">
-             <a class="nav-link" href="/{{ $menu->path }}">
+         <li class="nav-item {{ request()->is(ltrim($menu->path, '/') . '*') ? 'active' : '' }}">
+             <a class="nav-link" href="{{ $menu->path }}">
                  <i class="{{ $menu->icon }}"></i>
                  <span>{{ $menu->title }}</span></a>
          </li>
