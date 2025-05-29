@@ -44,7 +44,7 @@
                                 <tbody>
                                     @foreach ($users as $item)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $loop->iteration + $users->firstItem() - 1 }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>{{ $item->status }}</td>
@@ -67,6 +67,11 @@
                         </table>
                     </div>
                 </div>
+                @if ($users->lastPage() > 1)
+                    <div class="card-footer">
+                        {{ $users->links('pagination::bootstrap-5') }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
