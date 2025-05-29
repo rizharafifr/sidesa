@@ -52,7 +52,7 @@
                             <a href="/dashboard" class="btn btn-outline-secondary">
                                 Kembali
                             </a>
-                            <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </div>
                     </div>
                 </div>

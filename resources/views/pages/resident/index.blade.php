@@ -13,7 +13,7 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-body">
-                    <table class="table table-responsive-md table-bordered table-hovered">
+                    <table class="table table-responsive table-bordered table-hovered">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -54,17 +54,24 @@
                                         <td>{{ $item->phone }}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>
-                                            <div class="d-flex">
+                                            <div class="d-flex align-items-center" style="gap: 10px;">
                                                 <a href="/resident/{{ $item->id }}"
-                                                    class="btn btn-sm btn-warning d-inline-block mr-2"><i
+                                                    class="btn btn-sm btn-warning d-inline-block"><i
                                                         class="fa fa-pen"></i></a>
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#confirmationDelete-{{ $item->id }}"><i
                                                         class="fa fa-eraser"></i></button>
+                                                @if (!is_null($item->user_id))
+                                                    <button type="button" class="btn btn-sm btn-outline-info"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#detailAccount-{{ $item->id }}">Lihat
+                                                        Akun</button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
                                     @include('pages.resident.confirmation-delete')
+                                    @include('pages.resident.detail-account')
                                 @endforeach
                             </tbody>
                         @endif
