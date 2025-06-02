@@ -50,7 +50,7 @@ class ComplaintController extends Controller
     {
         $complaint = Complaint::findOrFail($id);
 
-        return view('pages.complaint.create', compact('complaint'));
+        return view('pages.complaint.edit', compact('complaint'));
     }
 
     public function update(Request $request, $id)
