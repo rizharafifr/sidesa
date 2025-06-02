@@ -62,7 +62,9 @@
                                         <td>{{ $loop->iteration + $complaints->firstItem() - 1 }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td>{!! wordwrap($item->content, 50, "<br>\n") !!}</td>
-                                        <td>{{ $item->status_label }}</td>
+                                        <td><span
+                                                class="badge badge-{{ $item->status_color }}">{{ $item->status_label }}</span>
+                                        </td>
                                         <td>
                                             @if (isset($item->photo_proof))
                                                 @php
