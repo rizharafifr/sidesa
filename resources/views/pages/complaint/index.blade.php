@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Aduan</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ auth()->user()->role_id == 2 ? 'Aduan' : 'Aduan Warga' }}</h1>
         @if (isset(auth()->user()->resident))
             <a href="/complaint/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white-50"></i> Buat Aduan</a>
@@ -78,14 +78,50 @@
                                         </td>
                                         <td>{{ $item->report_date_label }}</td>
                                         <td>
-                                            <div class="d-flex align-items-center" style="gap: 10px;">
-                                                <a href="/complaint/{{ $item->id }}"
-                                                    class="btn btn-sm btn-warning d-inline-block"><i
-                                                        class="fa fa-pen"></i></a>
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#confirmationDelete-{{ $item->id }}"><i
-                                                        class="fa fa-eraser"></i></button>
-                                            </div>
+                                            @if (auth()->user()->role_id == 2 && isset(auth()->user()->resident) && $item->status == 'new')
+                                                <div class="d-flex align-items-center" style="gap: 10px;">
+                                                    <a href="/complaint/{{ $item->id }}"
+                                                        class="btn btn-sm btn-warning d-inline-block"><i
+                                                            class="fa fa-pen"></i></a>
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#confirmationDelete-{{ $item->id }}"><i
+                                                            class="fa fa-eraser"></i></button>
+                                                </div>
+                                            @elseif (auth()->user()->role_id == 1)
+                                                <div class="">
+                                                    <form id="updateStatus-{{ $item->id }}"
+                                                        action="/complaint/update-status/{{ $item->id }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <div class="form-group">
+                                                            <select name="status" id="status" class="form-control"
+                                                                oninput="document.getElementById('updateStatus-{{ $item->id }}').submit()">
+                                                                @foreach ([
+            (object)
+    [
+                'label' => 'Baru',
+                'value' => 'new',
+            ],
+            (object) [
+                'label' => 'Sedang Diproses',
+                'value' => 'processing',
+            ],
+            (object) [
+                'label' => 'Selesai',
+                'value' => 'completed',
+            ],
+        ] as $status)
+                                                                    <option value="{{ $status->value }}"
+                                                                        @selected($item->status == $status->value)>
+                                                                        {{ $status->label }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                     @include('pages.complaint.confirmation-delete')
