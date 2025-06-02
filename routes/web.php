@@ -13,6 +13,24 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/register', [AuthController::class, 'registerView']);
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::get('/notifications', function () {
+    return view('pages.notifications');
+});
+Route::post('/notification/{id}/read', function ($id) {
+    $notification = \Illuminate\Support\Facades\DB::table('notifications')->where('id', $id);
+    $notification->update([
+        'read_at' => \Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP'),
+    ]);
+
+    $dataArray = json_decode($notification->firstOrFail()->data, true);
+
+    if (isset($dataArray['complaint_id'])) {
+        return redirect('/complaint');
+    }
+
+    return back();
+})->middleware('role:Admin,User');
+
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware('role:Admin,User');
