@@ -41,29 +41,41 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Registrasi</h1>
                                     </div>
-                                    <form class="user" action="/register" method="POST">
+                                    <form class="user" action="/register" method="POST"
+                                        onsubmit="const submitBtn = document.getElementById('submitBtn'); submitBtn.disabled = true; submitBtn.textContent = 'Loading ...';">
                                         @csrf
                                         @method('POST')
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="inputName"
-                                                name="name" placeholder="Full Name">
+                                            <input type="text"
+                                                class="form-control form-control-user @error('name') is-invalid  @enderror"
+                                                id="inputName" name="name" placeholder="Masukkan Nama Lengkap">
+                                            @error('name')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" id="inputEmail"
-                                                name="email" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="email"
+                                                class="form-control form-control-user @error('email') is-invalid  @enderror"
+                                                id="inputEmail" name="email" aria-describedby="emailHelp"
+                                                placeholder="Masukkan Email">
+                                            @error('email')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password"
-                                                class="form-control form-control-user" id="inputPassword"
-                                                placeholder="Password">
+                                                class="form-control form-control-user @error('password') is-invalid  @enderror"
+                                                id="inputPassword" placeholder="Masukkan Password">
+                                            @error('password')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button id="submitBtn" type="submit"
+                                            class="btn btn-primary btn-user btn-block">
                                             Simpan
                                         </button>
                                         <hr>
                                     </form>
-                                    <hr>
                                     <div class="text-center">
                                         <a class="small" href="/">Login!</a>
                                     </div>

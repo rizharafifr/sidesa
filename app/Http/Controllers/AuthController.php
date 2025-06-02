@@ -89,6 +89,11 @@ class AuthController extends Controller
             'name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required'],
+        ], [
+            'name.required' => 'Nama Lengkap Harus Diisi',
+            'email.required' => 'Email Harus Diisi',
+            'email.email' => 'Email Tidak Valid',
+            'password.required' => 'Password Harus Diisi',
         ]);
 
         $user = new User();
