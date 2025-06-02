@@ -13,7 +13,7 @@ class ComplaintController extends Controller
     public function index()
     {
         $residentId = Auth::user()->resident->id ?? null;
-        $complaints = Complaint::when(Auth::user()->role_id == 2, function ($query) use ($residentId) {
+        $complaints = Complaint::when(Auth::user()->role_id == \App\Models\Role::ROLE_USER, function ($query) use ($residentId) {
             $query->where('resident_id', $residentId);
         })->paginate(5);
 
@@ -115,7 +115,7 @@ class ComplaintController extends Controller
         ]);
 
         $resident = Auth::user()->resident;
-        if (Auth::user()->role_id == 2 && !$resident) {
+        if (Auth::user()->role_id == \App\Models\Role::ROLE_USER && !$resident) {
             return redirect('/complaint')->with('error', 'Akun anda belum terhubung dengan data penduduk');
         }
 

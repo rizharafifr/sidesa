@@ -32,4 +32,9 @@ class Complaint extends Model
             default => 'secondary',
         };
     }
+
+    public function resident()
+    {
+        return $this->belongsTo(Resident::class);
+    }
 }

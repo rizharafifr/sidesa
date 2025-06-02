@@ -3,7 +3,8 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ auth()->user()->role_id == 2 ? 'Aduan' : 'Aduan Warga' }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">
+            {{ auth()->user()->role_id == \App\Models\Role::ROLE_USER ? 'Aduan' : 'Aduan Warga' }}</h1>
         @if (isset(auth()->user()->resident))
             <a href="/complaint/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white-50"></i> Buat Aduan</a>
@@ -39,6 +40,9 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                @if (auth()->user()->role_id == \App\Models\Role::ROLE_ADMIN)
+                                    <th>Nama Penduduk</th>
+                                @endif
                                 <th>Judul</th>
                                 <th>Isi Aduan</th>
                                 <th>Status</th>
@@ -60,6 +64,9 @@
                                 @foreach ($complaints as $item)
                                     <tr>
                                         <td>{{ $loop->iteration + $complaints->firstItem() - 1 }}</td>
+                                        @if (auth()->user()->role_id == \App\Models\Role::ROLE_ADMIN)
+                                            <td>{{ $item->resident->name }}</td>
+                                        @endif
                                         <td>{{ $item->title }}</td>
                                         <td>{!! wordwrap($item->content, 50, "<br>\n") !!}</td>
                                         <td><span
@@ -80,7 +87,7 @@
                                         </td>
                                         <td>{{ $item->report_date_label }}</td>
                                         <td>
-                                            @if (auth()->user()->role_id == 2 && isset(auth()->user()->resident) && $item->status == 'new')
+                                            @if (auth()->user()->role_id == \App\Models\Role::ROLE_USER && isset(auth()->user()->resident) && $item->status == 'new')
                                                 <div class="d-flex align-items-center" style="gap: 10px;">
                                                     <a href="/complaint/{{ $item->id }}"
                                                         class="btn btn-sm btn-warning d-inline-block"><i
@@ -90,7 +97,7 @@
                                                         data-bs-target="#confirmationDelete-{{ $item->id }}"><i
                                                             class="fa fa-eraser"></i></button>
                                                 </div>
-                                            @elseif (auth()->user()->role_id == 1)
+                                            @elseif (auth()->user()->role_id == \App\Models\Role::ROLE_ADMIN)
                                                 <div class="">
                                                     <form id="updateStatus-{{ $item->id }}"
                                                         action="/complaint/update-status/{{ $item->id }}"
