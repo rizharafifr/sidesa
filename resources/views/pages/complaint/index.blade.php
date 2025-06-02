@@ -4,9 +4,31 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Aduan</h1>
-        <a href="/complaint/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-plus fa-sm text-white-50"></i> Buat Aduan</a>
+        @if (isset(auth()->user()->resident))
+            <a href="/complaint/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-plus fa-sm text-white-50"></i> Buat Aduan</a>
+        @endif
     </div>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                title: "Berhasil!",
+                text: "{{ session()->get('success') }}",
+                icon: "success"
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                title: "Gagal!",
+                text: "{{ session()->get('error') }}",
+                icon: "error"
+            });
+        </script>
+    @endif
 
     {{-- Table --}}
     <div class="row">

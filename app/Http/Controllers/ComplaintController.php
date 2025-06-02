@@ -11,7 +11,8 @@ class ComplaintController extends Controller
 {
     public function index()
     {
-        $complaints = Complaint::where('resident_id', Auth::user()->resident->id)->paginate(5);
+        $residentId = Auth::user()->resident->id ?? null;
+        $complaints = Complaint::where('resident_id', $residentId)->paginate(5);
 
         return view('pages.complaint.index', compact(
             'complaints',
@@ -20,6 +21,11 @@ class ComplaintController extends Controller
 
     public function create()
     {
+        $resident = Auth::user()->resident;
+        if (!$resident) {
+            return redirect('/complaint')->with('error', 'Akun anda belum terhubung dengan data penduduk');
+        }
+
         return view('pages.complaint.create');
     }
 
@@ -31,8 +37,14 @@ class ComplaintController extends Controller
             'photo_proof' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
         ]);
 
+        $resident = Auth::user()->resident;
+
+        if (!$resident) {
+            return redirect('/complaint')->with('error', 'Akun anda belum terhubung dengan data penduduk');
+        }
+
         $complaint = new Complaint();
-        $complaint->resident_id = Auth::user()->resident->id;
+        $complaint->resident_id = $resident->id;
         $complaint->title = $request->input('title');
         $complaint->content = $request->input('content');
 
@@ -48,6 +60,10 @@ class ComplaintController extends Controller
 
     public function edit($id)
     {
+        $resident = Auth::user()->resident;
+        if (!$resident) {
+            return redirect('/complaint')->with('error', 'Akun anda belum terhubung dengan data penduduk');
+        }
         $complaint = Complaint::findOrFail($id);
 
         return view('pages.complaint.edit', compact('complaint'));
@@ -61,8 +77,13 @@ class ComplaintController extends Controller
             'photo_proof' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
         ]);
 
+        $resident = Auth::user()->resident;
+        if (!$resident) {
+            return redirect('/complaint')->with('error', 'Akun anda belum terhubung dengan data penduduk');
+        }
+
         $complaint = Complaint::findOrFail($id);
-        $complaint->resident_id = Auth::user()->resident->id;
+        $complaint->resident_id = $resident->id;
         $complaint->title = $request->input('title');
         $complaint->content = $request->input('content');
 
@@ -81,6 +102,10 @@ class ComplaintController extends Controller
 
     public function destroy($id)
     {
+        $resident = Auth::user()->resident;
+        if (!$resident) {
+            return redirect('/complaint')->with('error', 'Akun anda belum terhubung dengan data penduduk');
+        }
         $complaint = Complaint::findOrFail($id);
         $complaint->delete();
 
